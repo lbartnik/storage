@@ -14,6 +14,24 @@ filesystem <- function (path = getwd(), create = FALSE)
 }
 
 
+#' @rdname filesystem_os
+#' @export
+is_filesystem <- function (x) is_object_store(x) && inherits(x, 'filesystem')
+
+
+#' @rdname filesystem_os
+#' @export
+print.filesystem <- function (x)
+{
+  files <- list.files(store, full.names = TRUE, recursive = TRUE)
+  tsize <- sum(vapply(files, file.size, numeric(1)))
+
+  cat('Filesystem Object Store\n')
+  cat('  ', floor(length(grep('.rds$', files)) / 2), ' objects\n')
+  cat('  ', format(`class<-`(tsize, 'object_size'), units = 'auto'))
+}
+
+
 assert_dir <- function (path, create)
 {
   if (!dir.exists(path) && isTRUE(create)) {
@@ -28,11 +46,6 @@ assert_dir <- function (path, create)
     stop('could not create directory ', path, call. = FALSE)
   }
 }
-
-
-#' @rdname filesystem_os
-#' @export
-is_filesystem <- function (x) is_object_store(x) && inherits(x, 'filesystem')
 
 
 
@@ -115,8 +128,8 @@ os_find.filesystem <- function (store, lazy_tags)
   cls <- vapply(lazy_tags, class, character(1))
   stopifnot(all(cls == 'lazy'))
 
-  files <- list.files(store, full.names = TRUE, include.dirs = TRUE,
-                      pattern = '*_tags.rds', recursive = TRUE)
+  files <- list.files(store, full.names = TRUE, recursive = TRUE,
+                      pattern = '*_tags.rds')
   ans <- vapply(files, function (path) {
     values <- readRDS(path)
     all(vapply(lazy_tags, lazy_eval, logical(1), data = values))
