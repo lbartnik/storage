@@ -16,7 +16,7 @@ NULL
 
 #' @rdname object_store
 #' @export
-is_object_store <- function (x) inherits(x, 'storage')
+is_object_store <- function (x) inherits(x, 'object_store')
 
 
 #' @rdname object_store
@@ -41,7 +41,7 @@ os_read_tags <- function (store, id) UseMethod("os_read_tags")
 
 #' @rdname object_store
 #' @export
-os_find <- function (storage, tags) UseMethod('os_find')
+os_find <- function (storage, lazy_tags) UseMethod('os_find')
 
 
 #' @rdname object_store

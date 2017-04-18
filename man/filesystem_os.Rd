@@ -11,7 +11,8 @@ filesystem(path = getwd(), create = FALSE)
 
 is_filesystem(x)
 
-\method{os_write}{filesystem}(store, object, tags, id = compute_id(object))
+\method{os_write}{filesystem}(store, object, tags = list(),
+  id = compute_id(object))
 }
 \description{
 Filesystem-based object store.

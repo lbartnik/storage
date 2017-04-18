@@ -21,7 +21,7 @@ os_read_object(store, id)
 
 os_read_tags(store, id)
 
-os_find(storage, tags)
+os_find(storage, lazy_tags)
 
 os_list(storage)
 }

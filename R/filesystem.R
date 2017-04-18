@@ -10,7 +10,7 @@ NULL
 filesystem <- function (path = getwd(), create = FALSE)
 {
   assert_dir(path, create)
-  structure(path, class = c('storage', 'filesystem'))
+  structure(path, class = c('object_store', 'filesystem'))
 }
 
 
@@ -32,7 +32,7 @@ assert_dir <- function (path, create)
 
 #' @rdname filesystem_os
 #' @export
-is_filesystem <- function (x) is_storage(x) && inherits(x, 'filesystem')
+is_filesystem <- function (x) is_object_store(x) && inherits(x, 'filesystem')
 
 
 
@@ -40,7 +40,7 @@ is_filesystem <- function (x) is_storage(x) && inherits(x, 'filesystem')
 full_path <- function (store, id, ext, .create = FALSE)
 {
   # parent path
-  path <- file.path(storage, substr(id, 1, 2), substr(id, 3, 4))
+  path <- file.path(store, substr(id, 1, 2), substr(id, 3, 4))
 
   # make sure parent directory exists
   if (isTRUE(.create)) {
@@ -59,9 +59,10 @@ full_path <- function (store, id, ext, .create = FALSE)
 
 #' @rdname filesystem_os
 #' @export
-os_write.filesystem <- function (store, object, tags, id = compute_id(object))
+os_write.filesystem <- function (store, object, tags = list(), id = compute_id(object))
 {
-  stopifnot(is_filesystem(sha1), is_nonempty_character(id))
+  stopifnot(is_filesystem(store), is_nonempty_character(id))
+  stopifnot(is.list(tags))
 
   path <- full_path(store, id, '.rds', .create = TRUE)
   saveRDS(object, path)
@@ -84,7 +85,7 @@ os_read_object.filesystem <- function (store, id)
   readRDS(full_path(store, id, '.rds'))
 }
 
-read_tags.filesystem <- function (store, id)
+os_read_tags.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
   readRDS(full_path(store, id, '_tags.rds'))
@@ -93,19 +94,34 @@ read_tags.filesystem <- function (store, id)
 
 
 #' @importFrom tools file_path_sans_ext
-list_ids.filesystem <- function (storage)
+os_list.filesystem <- function (store)
 {
-  stopifnot(is_filesystem(storage))
+  stopifnot(is_filesystem(store))
 
-  # [^s] means ignore _tags.rds
-  files <- basename(list.files(storage, pattern = '*[^s].rds', recursive = TRUE))
+  # [^s] means ignore all files matching *_tags.rds
+  files <- basename(list.files(store, pattern = '*[^s].rds', recursive = TRUE))
   unique(file_path_sans_ext(files))
 }
 
 
-find_id.filesystem <- function (storage, id)
+#' @importFrom lazyeval lazy_eval
+#' @importFrom tools file_path_sans_ext
+#' @importFrom stringi stri_sub
+#'
+os_find.filesystem <- function (store, lazy_tags)
 {
-  stopifnot(is_filesystem(storage))
-  file.exists(full_path(storage, id, '.rds'))
+  stopifnot(is_filesystem(store), is.list(lazy_tags))
+
+  cls <- vapply(lazy_tags, class, character(1))
+  stopifnot(all(cls == 'lazy'))
+
+  files <- list.files(store, full.names = TRUE, include.dirs = TRUE,
+                      pattern = '*_tags.rds', recursive = TRUE)
+  ans <- vapply(files, function (path) {
+    values <- readRDS(path)
+    all(vapply(lazy_tags, lazy_eval, logical(1), data = values))
+  }, logical(1))
+
+  stri_sub(basename(files), 1, -10)[ans]
 }
 
