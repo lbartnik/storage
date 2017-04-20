@@ -3,6 +3,7 @@
 \name{object_store}
 \alias{is_object_store}
 \alias{object_store}
+\alias{os_exists}
 \alias{os_find}
 \alias{os_list}
 \alias{os_read}
@@ -20,6 +21,8 @@ os_read(store, id)
 os_read_object(store, id)
 
 os_read_tags(store, id)
+
+os_exists(store, id)
 
 os_find(storage, lazy_tags)
 

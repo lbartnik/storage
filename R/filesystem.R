@@ -105,6 +105,12 @@ os_read_tags.filesystem <- function (store, id)
 }
 
 
+os_exists.filesystem <- function (store, id)
+{
+  stopifnot(is_filesystem(store), is.character(id))
+  file.exists(full_path(store, id, '.rds'))
+}
+
 
 #' @importFrom tools file_path_sans_ext
 os_list.filesystem <- function (store)

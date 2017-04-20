@@ -41,6 +41,11 @@ os_read_tags <- function (store, id) UseMethod("os_read_tags")
 
 #' @rdname object_store
 #' @export
+os_exists <- function (store, id) UseMethod("os_exists")
+
+
+#' @rdname object_store
+#' @export
 os_find <- function (storage, lazy_tags) UseMethod('os_find')
 
 
