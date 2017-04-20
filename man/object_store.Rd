@@ -9,10 +9,13 @@
 \alias{os_read}
 \alias{os_read_object}
 \alias{os_read_tags}
+\alias{os_remove}
 \alias{os_write}
 \title{Public interface for every object store.}
 \usage{
 is_object_store(x)
+
+os_remove(x)
 
 os_write(store, object, tags, id = hash(object))
 

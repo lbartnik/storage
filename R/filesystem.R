@@ -68,6 +68,13 @@ full_path <- function (store, id, ext, .create = FALSE)
 }
 
 
+#' @rdname filesystem_os
+#' @export
+os_remove.filesystem <- function (x) {
+  unlink(as.character(x), recursive = TRUE, force = TRUE)
+}
+
+
 
 
 #' @rdname filesystem_os

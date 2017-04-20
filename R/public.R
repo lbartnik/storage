@@ -19,6 +19,11 @@ NULL
 is_object_store <- function (x) inherits(x, 'object_store')
 
 
+#' @rdname object_store
+#' @export
+os_remove <- function (x) UseMethod("os_remove")
+
+
 #' @return \code{os_write} returns object id.
 #' @rdname object_store
 #' @export

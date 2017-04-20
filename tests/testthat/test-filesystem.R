@@ -1,6 +1,6 @@
 context("filesystem")
 
-test_that("store can be created", {
+test_that("store can be created and removed", {
   path <- file.path(tempdir(), "filesystem")
   on.exit(unlink(path, recursive = TRUE, force = TRUE))
 
@@ -8,6 +8,9 @@ test_that("store can be created", {
 
   fs <- filesystem(path, create = TRUE)
   expect_true(dir.exists(path))
+
+  os_remove(fs)
+  expect_false(dir.exists(path))
 })
 
 
