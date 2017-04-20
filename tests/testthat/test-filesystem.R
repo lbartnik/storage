@@ -42,6 +42,19 @@ test_that("read from store", {
 })
 
 
+test_that("object exists", {
+  fs <- helper_empty_filesystem()
+  on.exit(helper_rm_rf(fs))
+
+  expect_length(os_exists(fs, character(0)), 0)
+  expect_false(os_exists(fs, ''))
+  expect_false(os_exists(fs, 'abcdef'))
+
+  os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
+  expect_true(os_exists(fs, 'abcdef'))
+})
+
+
 test_that("list objects", {
   fs <- helper_sample_filesystem()
   on.exit(helper_rm_rf(fs))

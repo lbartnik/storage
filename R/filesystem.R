@@ -114,6 +114,8 @@ os_read_tags.filesystem <- function (store, id)
 os_exists.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is.character(id))
+
+  if (!length(id)) return(logical(0))
   file.exists(full_path(store, id, '.rds'))
 }
 
