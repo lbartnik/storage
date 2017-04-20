@@ -5,11 +5,14 @@
 \alias{filesystem_os}
 \alias{is_filesystem}
 \alias{os_write.filesystem}
+\alias{print.filesystem}
 \title{Filesystem-based object store.}
 \usage{
 filesystem(path = getwd(), create = FALSE)
 
 is_filesystem(x)
+
+\method{print}{filesystem}(x)
 
 \method{os_write}{filesystem}(store, object, tags = list(),
   id = compute_id(object))

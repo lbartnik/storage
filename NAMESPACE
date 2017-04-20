@@ -2,6 +2,7 @@
 
 S3method(compute_id,default)
 S3method(os_write,filesystem)
+S3method(print,filesystem)
 export(compute_id)
 export(filesystem)
 export(is_filesystem)
