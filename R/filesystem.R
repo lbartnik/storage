@@ -77,11 +77,17 @@ os_write.filesystem <- function (store, object, tags = list(), id = compute_id(o
   stopifnot(is_filesystem(store), is_nonempty_character(id))
   stopifnot(is.list(tags))
 
+  if (os_exists(store, id)) {
+    stop("object already present in store", call. = FALSE)
+  }
+
   path <- full_path(store, id, '.rds', .create = TRUE)
   saveRDS(object, path)
 
-  path <- full_path(store, id, '_tags.rds', .create = TRUE)
+  path <- full_path(store, id, '_tags.rds', .create = FALSE)
   saveRDS(tags, path)
+
+  id
 }
 
 

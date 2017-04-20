@@ -15,9 +15,10 @@ test_that("write to store", {
   fs <- helper_empty_filesystem()
   on.exit(helper_rm_rf(fs))
 
-  os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
+  res <- os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
   expect_true(file.exists(file.path(fs, 'ab', 'cd', 'abcdef.rds')))
   expect_true(file.exists(file.path(fs, 'ab', 'cd', 'abcdef_tags.rds')))
+  expect_equal(res, 'abcdef')
 })
 
 
@@ -25,7 +26,8 @@ test_that("read from store", {
   fs <- helper_empty_filesystem()
   on.exit(helper_rm_rf(fs))
 
-  os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
+  res <- os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
+  expect_equal(res, 'abcdef')
 
   res <- os_read(fs, 'abcdef')
   expect_named(res, c('object', 'tags'))

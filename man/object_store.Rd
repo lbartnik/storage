@@ -28,6 +28,9 @@ os_find(storage, lazy_tags)
 
 os_list(storage)
 }
+\value{
+\code{os_write} returns object id.
+}
 \description{
 Basic operations:
 \enumerate{

@@ -19,6 +19,7 @@ NULL
 is_object_store <- function (x) inherits(x, 'object_store')
 
 
+#' @return \code{os_write} returns object id.
 #' @rdname object_store
 #' @export
 os_write <- function (store, object, tags, id = hash(object)) UseMethod("os_write")
