@@ -4,6 +4,12 @@
 \alias{filesystem}
 \alias{filesystem_os}
 \alias{is_filesystem}
+\alias{os_exists.filesystem}
+\alias{os_find.filesystem}
+\alias{os_list.filesystem}
+\alias{os_read.filesystem}
+\alias{os_read_object.filesystem}
+\alias{os_read_tags.filesystem}
 \alias{os_remove.filesystem}
 \alias{os_write.filesystem}
 \alias{print.filesystem}
@@ -19,6 +25,18 @@ is_filesystem(x)
 
 \method{os_write}{filesystem}(store, object, tags = list(),
   id = compute_id(object))
+
+\method{os_read}{filesystem}(store, id)
+
+\method{os_read_object}{filesystem}(store, id)
+
+\method{os_read_tags}{filesystem}(store, id)
+
+\method{os_exists}{filesystem}(store, id)
+
+\method{os_list}{filesystem}(store)
+
+\method{os_find}{filesystem}(store, lazy_tags)
 }
 \description{
 Filesystem-based object store.

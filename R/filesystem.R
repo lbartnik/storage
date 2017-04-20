@@ -98,6 +98,8 @@ os_write.filesystem <- function (store, object, tags = list(), id = compute_id(o
 }
 
 
+#' @rdname filesystem_os
+#' @export
 os_read.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
@@ -105,12 +107,18 @@ os_read.filesystem <- function (store, id)
        tags   = os_read_tags(store, id))
 }
 
+
+#' @rdname filesystem_os
+#' @export
 os_read_object.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
   readRDS(full_path(store, id, '.rds'))
 }
 
+
+#' @rdname filesystem_os
+#' @export
 os_read_tags.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
@@ -118,6 +126,8 @@ os_read_tags.filesystem <- function (store, id)
 }
 
 
+#' @rdname filesystem_os
+#' @export
 os_exists.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is.character(id))
@@ -127,6 +137,8 @@ os_exists.filesystem <- function (store, id)
 }
 
 
+#' @rdname filesystem_os
+#' @export
 #' @importFrom tools file_path_sans_ext
 os_list.filesystem <- function (store)
 {
@@ -138,6 +150,9 @@ os_list.filesystem <- function (store)
 }
 
 
+#' @rdname filesystem_os
+#' @export
+#'
 #' @importFrom lazyeval lazy_eval
 #' @importFrom tools file_path_sans_ext
 #' @importFrom stringi stri_sub
