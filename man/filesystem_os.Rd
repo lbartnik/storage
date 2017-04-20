@@ -19,7 +19,7 @@ filesystem(path = getwd(), create = FALSE)
 
 is_filesystem(x)
 
-\method{print}{filesystem}(x)
+\method{print}{filesystem}(x, ...)
 
 \method{os_remove}{filesystem}(x)
 

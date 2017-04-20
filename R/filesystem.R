@@ -21,9 +21,9 @@ is_filesystem <- function (x) is_object_store(x) && inherits(x, 'filesystem')
 
 #' @rdname filesystem_os
 #' @export
-print.filesystem <- function (x)
+print.filesystem <- function (x, ...)
 {
-  files <- list.files(store, full.names = TRUE, recursive = TRUE)
+  files <- list.files(x, full.names = TRUE, recursive = TRUE)
   tsize <- sum(vapply(files, file.size, numeric(1)))
 
   cat('Filesystem Object Store\n')
@@ -34,16 +34,17 @@ print.filesystem <- function (x)
 
 assert_dir <- function (path, create)
 {
-  if (!dir.exists(path) && isTRUE(create)) {
+  if (dir.exists(path)) return()
+
+  if (isTRUE(create)) {
     dir.create(path, recursive = TRUE, showWarnings = FALSE)
+    if (!dir.exists(path)) {
+      stop('could not create directory ', path, call. = FALSE)
+    }
   }
   else {
     stop('directory ', path, ' does not exist but `create` is FALSE',
          call. = FALSE)
-  }
-
-  if (!dir.exists(path)) {
-    stop('could not create directory ', path, call. = FALSE)
   }
 }
 
