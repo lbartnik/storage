@@ -169,7 +169,8 @@ os_find.filesystem <- function (store, lazy_tags)
                       pattern = '*_tags.rds')
   ans <- vapply(files, function (path) {
     values <- readRDS(path)
-    all(vapply(lazy_tags, lazy_eval, logical(1), data = values))
+    all(vapply(lazy_tags, function (x, data) isTRUE(try(lazy_eval(x, data), silent = TRUE)),
+               logical(1), data = values))
   }, logical(1))
 
   stri_sub(basename(files), 1, -10)[ans]

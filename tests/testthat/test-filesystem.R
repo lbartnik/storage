@@ -86,3 +86,13 @@ test_that("find objects", {
   expect_length(obj, 3)
   expect_true(setequal(obj, 1:3))
 })
+
+
+test_that("cannot evaluate", {
+  fs <- helper_sample_filesystem()
+  on.exit(helper_rm_rf(fs))
+
+  expect_silent(res <- os_find(fs, list(lazyeval::lazy(no_such_tag == 'a'))))
+  expect_length(res, 0)
+})
+
