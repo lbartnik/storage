@@ -3,10 +3,15 @@ compute_id <- function (x) UseMethod("compute_id")
 
 
 #' @export
-compute_id.default <- function (x) digest::sha1(x)
+compute_id.default <- function (x) digest::digest(x, algo = 'sha1')
+
 
 #' @export
-compute_id.environment <- function (x) compute_id(as.list(x))
+shorten <- function (x) substr(x, 1, 8)
+
 
 #' @export
-`compute_id.<-` <- function (x) compute_id(as.list(x))
+enlongate <- function (x, storage) {
+  ids <- os_list(storage)
+  stringi::stri_subset_fixed(ids, x)
+}

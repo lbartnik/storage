@@ -104,6 +104,10 @@ os_write.filesystem <- function (store, object, tags = list(), id = compute_id(o
 os_read.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
+  if (!os_exists(store, id)) {
+    stop("object `", id, "` does not exist in store", call. = FALSE)
+  }
+
   list(object = os_read_object(store, id),
        tags   = os_read_tags(store, id))
 }
