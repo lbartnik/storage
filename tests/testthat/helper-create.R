@@ -18,3 +18,18 @@ helper_rm_rf <- function (x)
   stopifnot(is_filesystem(x))
   unlink(x, recursive = TRUE, force = TRUE)
 }
+
+
+
+helper_empty_memory <- function (path)
+{
+  memory()
+}
+
+helper_sample_memory <- function ()
+{
+  mm <- helper_empty_memory()
+  lapply(1:10, function(i) os_write(mm, i, list(tag = letters[i])))
+  mm
+}
+
