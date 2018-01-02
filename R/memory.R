@@ -23,7 +23,7 @@ is_memory <- function (x) is_object_store(x) && inherits(x, 'memory')
 print.memory <- function (x, ...)
 {
   cat('Memory Object Store\n')
-  cat('  ', floor(length(grep('.rds$', files)) / 2), ' objects\n')
+  cat('  ', length(ls(envir = x)), ' objects\n')
 }
 
 

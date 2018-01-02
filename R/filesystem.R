@@ -21,14 +21,35 @@ is_filesystem <- function (x) is_object_store(x) && inherits(x, 'filesystem')
 
 #' @rdname filesystem_os
 #' @export
-print.filesystem <- function (x, ...)
+is_filesystem_dir <- function (path)
 {
-  files <- list.files(x, full.names = TRUE, recursive = TRUE)
-  tsize <- sum(vapply(files, file.size, numeric(1)))
+  stopifnot(is.character(path), length(path) == 1)
 
-  cat('Filesystem Object Store\n')
-  cat('  ', floor(length(grep('.rds$', files)) / 2), ' objects\n')
-  cat('  ', format(`class<-`(tsize, 'object_size'), units = 'auto'))
+  all_files <- list.files(path, all.files = TRUE, full.names = TRUE, recursive = TRUE)
+
+  # there needs to be something there
+  if (!length(all_files)) return(FALSE)
+
+  # all files need to be .rds
+  if (!identical(length(grep('\\.rds$', all_files)), length(all_files))) return(FALSE)
+
+  # all files need to follow the naming pattern: ab/cd/abcdxxxxxxx....rds
+  all_basename <- basename(all_files)
+  all_nested <- file.path(substr(all_basename, 1, 2), substr(all_basename, 3, 4), all_basename)
+  if (!setequal(file.path(path, all_nested), all_files)) return(FALSE)
+
+  # there need to be _tags.rds and .rds (data) files
+  all_tags <- grep('_tags.rds', all_files, value = TRUE)
+  all_data <- grep('_tags.rds', all_files, value = TRUE, invert = TRUE)
+  if (!identical(length(all_tags), length(all_data))) return(FALSE)
+
+  if (!setequal(stringi::stri_sub(all_tags, 1, -10),
+                stringi::stri_sub(all_data, 1, -5)))
+  {
+    return(FALSE)
+  }
+
+  TRUE
 }
 
 
@@ -49,8 +70,6 @@ assert_dir <- function (path, create)
 }
 
 
-
-
 full_path <- function (store, id, ext, .create = FALSE)
 {
   # parent path
@@ -66,6 +85,19 @@ full_path <- function (store, id, ext, .create = FALSE)
 
   # return the fill path
   file.path(path, paste0(id, ext))
+}
+
+
+#' @rdname filesystem_os
+#' @export
+print.filesystem <- function (x, ...)
+{
+  files <- list.files(x, full.names = TRUE, recursive = TRUE)
+  tsize <- sum(vapply(files, file.size, numeric(1)))
+
+  cat('Filesystem Object Store\n')
+  cat('  ', floor(length(grep('.rds$', files)) / 2), ' objects\n')
+  cat('  ', format(`class<-`(tsize, 'object_size'), units = 'auto'))
 }
 
 

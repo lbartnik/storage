@@ -96,3 +96,52 @@ test_that("cannot evaluate", {
   expect_length(res, 0)
 })
 
+
+test_that("is directory a filesystem store", {
+  # an empty directory is potentially a filesystem but that does not count
+  path <- file.path(tempdir(), 'test-filesystem-dir')
+  dir.create(path)
+  on.exit(helper_rm_rf(path))
+
+  expect_false(is_filesystem_dir(path))
+
+  # a regular filesystem directory is recognized as such
+  fs <- helper_sample_filesystem()
+  on.exit(helper_rm_rf(fs))
+
+  path <- as.character(fs)
+  expect_true(is_filesystem_dir(path))
+})
+
+
+test_that("other dirs are not filesystem", {
+  fs <- helper_sample_filesystem()
+  on.exit(helper_rm_rf(fs))
+
+  # make sure the original is recognized
+  expect_true(is_filesystem_dir(as.character(fs)))
+
+  test_filesystem <- function (file_name, expectation) {
+    file_path <- file.path(as.character(fs), file_name)
+    dir.create(dirname(file_path), showWarnings = FALSE, recursive = TRUE)
+    file.create(file_path)
+    on.exit(unlink(file_path))
+
+    expectation(is_filesystem_dir(as.character(fs)), info = file_name)
+  }
+
+  is_not_filesystem <- function (file_name) test_filesystem(file_name, expect_false)
+
+  # needs to have the correct extension
+  is_not_filesystem('x')
+  is_not_filesystem('x.rdd')
+
+  # needs to be under the full path
+  is_not_filesystem('x.rds')
+  is_not_filesystem('abcdef.rds')
+  is_not_filesystem('ab/abcdef.rds')
+
+  # requires both tags and data file
+  is_not_filesystem('ab/cd/abcdef.rds')
+  is_not_filesystem('ab/cd/abcdef_tags.rds')
+})

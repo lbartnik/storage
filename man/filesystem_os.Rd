@@ -4,6 +4,7 @@
 \alias{filesystem_os}
 \alias{filesystem}
 \alias{is_filesystem}
+\alias{is_filesystem_dir}
 \alias{print.filesystem}
 \alias{os_remove.filesystem}
 \alias{os_write.filesystem}
@@ -18,6 +19,8 @@
 filesystem(path = getwd(), create = FALSE)
 
 is_filesystem(x)
+
+is_filesystem_dir(path)
 
 \method{print}{filesystem}(x, ...)
 
