@@ -20,7 +20,7 @@ filesystem(path = getwd(), create = FALSE)
 
 is_filesystem(x)
 
-is_filesystem_dir(path)
+is_filesystem_dir(path, empty_ok = FALSE)
 
 \method{print}{filesystem}(x, ...)
 

@@ -145,3 +145,15 @@ test_that("other dirs are not filesystem", {
   is_not_filesystem('ab/cd/abcdef.rds')
   is_not_filesystem('ab/cd/abcdef_tags.rds')
 })
+
+
+test_that("empty can be filesystem store", {
+  path <- file.path(tempdir(), 'test-store')
+  on.exit(unlink(path, recursive = TRUE, force = TRUE), add = TRUE)
+
+  if (file.exists(path)) unlink(path, recursive = TRUE, force = TRUE)
+  expect_true(dir.create(path))
+
+  expect_false(is_filesystem_dir(path))
+  expect_true(is_filesystem_dir(path, empty_ok = TRUE))
+})

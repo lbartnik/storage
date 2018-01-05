@@ -21,14 +21,14 @@ is_filesystem <- function (x) is_object_store(x) && inherits(x, 'filesystem')
 
 #' @rdname filesystem_os
 #' @export
-is_filesystem_dir <- function (path)
+is_filesystem_dir <- function (path, empty_ok = FALSE)
 {
   stopifnot(is.character(path), length(path) == 1)
 
   all_files <- list.files(path, all.files = TRUE, full.names = TRUE, recursive = TRUE)
 
   # there needs to be something there
-  if (!length(all_files)) return(FALSE)
+  if (!length(all_files)) return(isTRUE(empty_ok))
 
   # all files need to be .rds
   if (!identical(length(grep('\\.rds$', all_files)), length(all_files))) return(FALSE)
