@@ -34,6 +34,12 @@ os_remove.memory <- function (x) {
 }
 
 
+#' @rdname memory_os
+#' @export
+os_remove_objects.memory <- function (x, ids = os_list(x)) {
+  stop("not implemented yet")
+}
+
 
 #' @rdname memory_os
 #' @export

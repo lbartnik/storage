@@ -6,6 +6,7 @@
 \alias{is_memory}
 \alias{print.memory}
 \alias{os_remove.memory}
+\alias{os_remove_objects.memory}
 \alias{os_write.memory}
 \alias{os_read.memory}
 \alias{os_read_object.memory}
@@ -22,6 +23,8 @@ is_memory(x)
 \method{print}{memory}(x, ...)
 
 \method{os_remove}{memory}(x)
+
+\method{os_remove_objects}{memory}(x, ids = os_list(x))
 
 \method{os_write}{memory}(store, object, tags = list(),
   id = compute_id(object))

@@ -83,7 +83,7 @@ full_path <- function (store, id, ext, .create = FALSE)
     }
   }
 
-  # return the fill path
+  # return the full path
   file.path(path, paste0(id, ext))
 }
 
@@ -95,7 +95,8 @@ print.filesystem <- function (x, ...)
   files <- list.files(x, full.names = TRUE, recursive = TRUE)
   tsize <- sum(vapply(files, file.size, numeric(1)))
 
-  cat('Filesystem Object Store\n')
+  cat('Filesystem Object Store')
+  cat('  {', as.character(x), '}\n')
   cat('  ', floor(length(grep('.rds$', files)) / 2), ' objects\n')
   cat('  ', format(`class<-`(tsize, 'object_size'), units = 'auto'))
 }
@@ -105,6 +106,21 @@ print.filesystem <- function (x, ...)
 #' @export
 os_remove.filesystem <- function (x) {
   unlink(as.character(x), recursive = TRUE, force = TRUE)
+}
+
+
+#' @rdname filesystem_os
+#' @export
+os_remove_objects.filesystem <- function (x, ids = os_list(x))
+{
+  # remove data and tag files
+  ids <- c(ids, paste0(ids, '_tags'))
+
+  # match existing files against object ids
+  files <- list.files(x, full.names = TRUE, recursive = TRUE)
+  ids <- match(ids, tools::file_path_sans_ext(basename(files)))
+
+  invisible(unlink(files[ids]) == 0)
 }
 
 

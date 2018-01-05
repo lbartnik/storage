@@ -4,6 +4,7 @@
 \alias{object_store}
 \alias{is_object_store}
 \alias{os_remove}
+\alias{os_remove_objects}
 \alias{os_write}
 \alias{os_read}
 \alias{os_read_object}
@@ -16,6 +17,8 @@
 is_object_store(x)
 
 os_remove(x)
+
+os_remove_objects(x, ids = os_list(x))
 
 os_write(store, object, tags, id = hash(object))
 

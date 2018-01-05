@@ -67,6 +67,20 @@ test_that("list objects", {
 })
 
 
+test_that("remove objects", {
+  fs <- helper_sample_filesystem()
+  on.exit(helper_rm_rf(fs))
+
+  id <- os_list(fs)[[1]]
+  expect_true(file.exists(full_path(fs, id, '.rds')))
+  expect_true(file.exists(full_path(fs, id, '_tags.rds')))
+
+  expect_true(os_remove_objects(fs, id))
+  expect_false(file.exists(full_path(fs, id, '.rds')))
+  expect_false(file.exists(full_path(fs, id, '_tags.rds')))
+})
+
+
 test_that("find objects", {
   fs <- helper_sample_filesystem()
   on.exit(helper_rm_rf(fs))

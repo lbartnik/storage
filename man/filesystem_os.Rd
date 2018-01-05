@@ -7,6 +7,7 @@
 \alias{is_filesystem_dir}
 \alias{print.filesystem}
 \alias{os_remove.filesystem}
+\alias{os_remove_objects.filesystem}
 \alias{os_write.filesystem}
 \alias{os_read.filesystem}
 \alias{os_read_object.filesystem}
@@ -25,6 +26,8 @@ is_filesystem_dir(path, empty_ok = FALSE)
 \method{print}{filesystem}(x, ...)
 
 \method{os_remove}{filesystem}(x)
+
+\method{os_remove_objects}{filesystem}(x, ids = os_list(x))
 
 \method{os_write}{filesystem}(store, object, tags = list(),
   id = compute_id(object))
