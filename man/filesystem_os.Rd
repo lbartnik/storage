@@ -9,6 +9,7 @@
 \alias{os_remove.filesystem}
 \alias{os_remove_objects.filesystem}
 \alias{os_write.filesystem}
+\alias{os_update_tags.filesystem}
 \alias{os_read.filesystem}
 \alias{os_read_object.filesystem}
 \alias{os_read_tags.filesystem}
@@ -31,6 +32,8 @@ is_filesystem_dir(path, empty_ok = FALSE)
 
 \method{os_write}{filesystem}(store, object, tags = list(),
   id = compute_id(object))
+
+\method{os_update_tags}{filesystem}(store, id, tags)
 
 \method{os_read}{filesystem}(store, id)
 

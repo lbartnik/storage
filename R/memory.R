@@ -60,6 +60,21 @@ os_write.memory <- function (store, object, tags = list(), id = compute_id(objec
 
 #' @rdname memory_os
 #' @export
+os_update_tags.memory <- function (store, id, tags)
+{
+  stopifnot(is_memory(store), is_nonempty_character(id))
+  stopifnot(is.list(tags))
+
+  if (!os_exists(store, id)) {
+    stop("object does not exist in store", call. = FALSE)
+  }
+
+  store[[id]]$tags <- tags
+  id
+}
+
+#' @rdname memory_os
+#' @export
 os_read.memory <- function (store, id)
 {
   stopifnot(is_memory(store), is_nonempty_character(id))

@@ -8,6 +8,7 @@
 \alias{os_remove.memory}
 \alias{os_remove_objects.memory}
 \alias{os_write.memory}
+\alias{os_update_tags.memory}
 \alias{os_read.memory}
 \alias{os_read_object.memory}
 \alias{os_read_tags.memory}
@@ -28,6 +29,8 @@ is_memory(x)
 
 \method{os_write}{memory}(store, object, tags = list(),
   id = compute_id(object))
+
+\method{os_update_tags}{memory}(store, id, tags)
 
 \method{os_read}{memory}(store, id)
 

@@ -6,6 +6,7 @@
 \alias{os_remove}
 \alias{os_remove_objects}
 \alias{os_write}
+\alias{os_update_tags}
 \alias{os_read}
 \alias{os_read_object}
 \alias{os_read_tags}
@@ -20,7 +21,9 @@ os_remove(x)
 
 os_remove_objects(x, ids = os_list(x))
 
-os_write(store, object, tags, id = hash(object))
+os_write(store, object, tags, id = compute_id(object))
+
+os_update_tags(store, id, tags)
 
 os_read(store, id)
 

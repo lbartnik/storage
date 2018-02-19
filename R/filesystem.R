@@ -149,6 +149,24 @@ os_write.filesystem <- function (store, object, tags = list(), id = compute_id(o
 
 #' @rdname filesystem_os
 #' @export
+os_update_tags.filesystem <- function (store, id, tags)
+{
+  stopifnot(is_filesystem(store), is_nonempty_character(id))
+  stopifnot(is.list(tags))
+
+  if (!os_exists(store, id)) {
+    stop("object does not exist in store", call. = FALSE)
+  }
+
+  path <- full_path(store, id, '_tags.rds', .create = FALSE)
+  saveRDS(tags, path)
+
+  id
+}
+
+
+#' @rdname filesystem_os
+#' @export
 os_read.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
@@ -166,7 +184,9 @@ os_read.filesystem <- function (store, id)
 os_read_object.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
-  readRDS(full_path(store, id, '.rds'))
+  path <- full_path(store, id, '.rds')
+  stopifnot(file.exists(path))
+  readRDS(path)
 }
 
 
@@ -175,7 +195,9 @@ os_read_object.filesystem <- function (store, id)
 os_read_tags.filesystem <- function (store, id)
 {
   stopifnot(is_filesystem(store), is_nonempty_character(id))
-  readRDS(full_path(store, id, '_tags.rds'))
+  path <- full_path(store, id, '_tags.rds')
+  stopifnot(file.exists(path))
+  readRDS(path)
 }
 
 

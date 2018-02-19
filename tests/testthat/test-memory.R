@@ -9,6 +9,18 @@ test_that("write to store", {
 })
 
 
+test_that("update tags", {
+  mm <- helper_sample_memory()
+
+  id <- compute_id(1L)
+  expect_true(os_exists(mm, id))
+  expect_equal(os_read_tags(mm, id), list(tag = 'a'))
+
+  expect_equal(os_update_tags(mm, id, list(tag = 'x')), id)
+  expect_equal(os_read_tags(mm, id), list(tag = 'x'))
+})
+
+
 test_that("read from store", {
   mm <- helper_empty_memory()
 

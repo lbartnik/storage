@@ -32,7 +32,12 @@ os_remove_objects <- function (x, ids = os_list(x)) UseMethod("os_remove_objects
 #' @return \code{os_write} returns object id.
 #' @rdname object_store
 #' @export
-os_write <- function (store, object, tags, id = hash(object)) UseMethod("os_write")
+os_write <- function (store, object, tags, id = compute_id(object)) UseMethod("os_write")
+
+
+#' @rdname object_store
+#' @export
+os_update_tags <- function (store, id, tags) UseMethod("os_update_tags")
 
 
 #' @rdname object_store

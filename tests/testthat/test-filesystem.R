@@ -25,6 +25,19 @@ test_that("write to store", {
 })
 
 
+test_that("update tags", {
+  fs <- helper_sample_filesystem()
+  on.exit(helper_rm_rf(fs))
+
+  id <- compute_id(1L)
+  expect_true(os_exists(fs, id))
+  expect_equal(os_read_tags(fs, id), list(tag = 'a'))
+
+  expect_equal(os_update_tags(fs, id, list(tag = 'x')), id)
+  expect_equal(os_read_tags(fs, id), list(tag = 'x'))
+})
+
+
 test_that("read from store", {
   fs <- helper_empty_filesystem()
   on.exit(helper_rm_rf(fs))
