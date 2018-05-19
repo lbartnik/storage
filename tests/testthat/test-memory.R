@@ -64,14 +64,14 @@ test_that("find objects", {
   mm <- helper_sample_memory()
 
   # single object
-  res <- os_find(mm, list(lazyeval::lazy(tag == 'a')))
+  res <- os_find(mm, list(rlang::quo(tag == 'a')))
   expect_length(res, 1)
 
   obj <- os_read_object(mm, res)
   expect_equal(obj, 1)
 
   # multiple objects
-  res <- os_find(mm, list(lazyeval::lazy(tag %in% c('a', 'b', 'c'))))
+  res <- os_find(mm, list(rlang::quo(tag %in% c('a', 'b', 'c'))))
   expect_length(res, 3)
 
   obj <- vapply(res, function (id) os_read_object(mm, id), numeric(1))
@@ -83,6 +83,6 @@ test_that("find objects", {
 test_that("cannot evaluate", {
   mm <- helper_sample_memory()
 
-  expect_silent(res <- os_find(mm, list(lazyeval::lazy(no_such_tag == 'a'))))
+  expect_silent(res <- os_find(mm, list(rlang::quo(no_such_tag == 'a'))))
   expect_length(res, 0)
 })
