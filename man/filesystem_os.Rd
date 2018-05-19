@@ -45,7 +45,7 @@ is_filesystem_dir(path, empty_ok = FALSE)
 
 \method{os_list}{filesystem}(store)
 
-\method{os_find}{filesystem}(store, lazy_tags)
+\method{os_find}{filesystem}(store, tags)
 }
 \description{
 Filesystem-based object store.

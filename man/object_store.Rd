@@ -33,7 +33,7 @@ os_read_tags(store, id)
 
 os_exists(store, id)
 
-os_find(storage, lazy_tags)
+os_find(storage, tags)
 
 os_list(storage)
 }

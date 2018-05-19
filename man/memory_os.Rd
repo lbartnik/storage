@@ -42,7 +42,7 @@ is_memory(x)
 
 \method{os_list}{memory}(store)
 
-\method{os_find}{memory}(store, lazy_tags)
+\method{os_find}{memory}(store, tags)
 }
 \description{
 Memory-based object store.
