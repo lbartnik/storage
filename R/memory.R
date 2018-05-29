@@ -128,21 +128,21 @@ os_list.memory <- function (store)
 #' @rdname memory_os
 #' @export
 #'
-#' @importFrom lazyeval lazy_eval
+#' @import rlang
 #' @importFrom tools file_path_sans_ext
 #' @importFrom stringi stri_sub
 #'
-os_find.memory <- function (store, lazy_tags)
+os_find.memory <- function (store, tags)
 {
-  stopifnot(is_memory(store), is.list(lazy_tags))
+  stopifnot(is_memory(store), is.list(tags))
 
-  cls <- vapply(lazy_tags, class, character(1))
-  stopifnot(all(cls == 'lazy'))
+  isq <- vapply(tags, rlang::is_quosure, logical(1))
+  stopifnot(all(isq))
 
   tags <- eapply(store, function (el) {
-    all(vapply(lazy_tags, function (x, data) isTRUE(try(lazy_eval(x, data), silent = TRUE)),
+    all(vapply(tags, function (x, data) isTRUE(try(rlang::eval_tidy(x, data), silent = TRUE)),
                logical(1), data = el$tags))
   })
 
-  names(which(unlist(tags)))
+  names(which(vapply(tags, as.logical, logical(1))))
 }

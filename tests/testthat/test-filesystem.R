@@ -99,14 +99,14 @@ test_that("find objects", {
   on.exit(helper_rm_rf(fs))
 
   # single object
-  res <- os_find(fs, list(lazyeval::lazy(tag == 'a')))
+  res <- os_find(fs, list(rlang::quo(tag == 'a')))
   expect_length(res, 1)
 
   obj <- os_read_object(fs, res)
   expect_equal(obj, 1)
 
   # multiple objects
-  res <- os_find(fs, list(lazyeval::lazy(tag %in% c('a', 'b', 'c'))))
+  res <- os_find(fs, list(rlang::quo(tag %in% c('a', 'b', 'c'))))
   expect_length(res, 3)
 
   obj <- vapply(res, function (id) os_read_object(fs, id), numeric(1))
@@ -119,7 +119,7 @@ test_that("cannot evaluate", {
   fs <- helper_sample_filesystem()
   on.exit(helper_rm_rf(fs))
 
-  expect_silent(res <- os_find(fs, list(lazyeval::lazy(no_such_tag == 'a'))))
+  expect_silent(res <- os_find(fs, list(rlang::quo(no_such_tag == 'a'))))
   expect_length(res, 0)
 })
 

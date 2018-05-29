@@ -62,7 +62,7 @@ os_exists <- function (store, id) UseMethod("os_exists")
 
 #' @rdname object_store
 #' @export
-os_find <- function (storage, lazy_tags) UseMethod('os_find')
+os_find <- function (storage, tags) UseMethod('os_find')
 
 
 #' @rdname object_store

@@ -228,22 +228,22 @@ os_list.filesystem <- function (store)
 #' @rdname filesystem_os
 #' @export
 #'
-#' @importFrom lazyeval lazy_eval
+#' @import rlang
 #' @importFrom tools file_path_sans_ext
 #' @importFrom stringi stri_sub
 #'
-os_find.filesystem <- function (store, lazy_tags)
+os_find.filesystem <- function (store, tags)
 {
-  stopifnot(is_filesystem(store), is.list(lazy_tags))
+  stopifnot(is_filesystem(store), is.list(tags))
 
-  cls <- vapply(lazy_tags, class, character(1))
-  stopifnot(all(cls == 'lazy'))
+  isq <- vapply(tags, rlang::is_quosure, logical(1))
+  stopifnot(all(isq))
 
   files <- list.files(store, full.names = TRUE, recursive = TRUE,
                       pattern = '*_tags.rds')
   ans <- vapply(files, function (path) {
     values <- readRDS(path)
-    all(vapply(lazy_tags, function (x, data) isTRUE(try(lazy_eval(x, data), silent = TRUE)),
+    all(vapply(tags, function (x, data) isTRUE(try(rlang::eval_tidy(x, data), silent = TRUE)),
                logical(1), data = values))
   }, logical(1))
 
