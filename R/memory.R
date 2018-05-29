@@ -144,5 +144,5 @@ os_find.memory <- function (store, tags)
                logical(1), data = el$tags))
   })
 
-  names(which(unlist(tags)))
+  names(which(vapply(tags, as.logical, logical(1))))
 }

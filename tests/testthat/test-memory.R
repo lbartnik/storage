@@ -80,6 +80,14 @@ test_that("find objects", {
 })
 
 
+test_that("find in empty", {
+  mm <- helper_empty_memory()
+
+  res <- os_find(mm, list(rlang::quo(x == 1)))
+  expect_length(res, 0)
+})
+
+
 test_that("cannot evaluate", {
   mm <- helper_sample_memory()
 
