@@ -29,6 +29,12 @@ print.memory <- function (x, ...)
 
 #' @rdname memory_os
 #' @export
+toString.memory <- function (x, ...) {
+  paste0('<memory:', substring(format(x), 15))
+}
+
+#' @rdname memory_os
+#' @export
 os_remove.memory <- function (x) {
   rm(list = ls(envir = x, all.names = TRUE), envir = x)
 }
