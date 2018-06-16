@@ -102,6 +102,13 @@ print.filesystem <- function (x, ...)
 }
 
 
+#' @rdname memory_os
+#' @export
+toString.memory <- function (x, ...) {
+  paste0('<filesystem:', x, '>')
+}
+
+
 #' @rdname filesystem_os
 #' @export
 os_remove.filesystem <- function (x) {
