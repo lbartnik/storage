@@ -115,6 +115,17 @@ test_that("find objects", {
 })
 
 
+test_that("find by id", {
+  fs <- helper_sample_filesystem()
+  on.exit(helper_rm_rf(fs))
+
+  # single object
+  quo <- rlang::quo(id == rlang::UQ(compute_id(1L)))
+  res <- os_find(fs, list(quo))
+  expect_length(res, 1)
+})
+
+
 test_that("cannot evaluate", {
   fs <- helper_sample_filesystem()
   on.exit(helper_rm_rf(fs))

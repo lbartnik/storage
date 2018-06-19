@@ -28,7 +28,7 @@ test_that("read from store", {
   expect_equal(res, 'abcdef')
 
   res <- os_read(mm, 'abcdef')
-  expect_named(res, c('object', 'tags'))
+  expect_named(res, c('id', 'object', 'tags'), ignore.order = TRUE)
   expect_equal(res$object, iris)
   expect_equal(res$tags, list(tag = 'value'))
 
@@ -85,6 +85,16 @@ test_that("find in empty", {
 
   res <- os_find(mm, list(rlang::quo(x == 1)))
   expect_length(res, 0)
+})
+
+
+test_that("find by id", {
+  fs <- helper_sample_memory()
+
+  # single object
+  quo <- rlang::quo(id == rlang::UQ(compute_id(1L)))
+  res <- os_find(fs, list(quo))
+  expect_length(res, 1)
 })
 
 

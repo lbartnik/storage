@@ -248,12 +248,16 @@ os_find.filesystem <- function (store, tags)
 
   files <- list.files(store, full.names = TRUE, recursive = TRUE,
                       pattern = '*_tags.rds')
-  ans <- vapply(files, function (path) {
-    values <- readRDS(path)
-    all(vapply(tags, function (x, data) isTRUE(try(rlang::eval_tidy(x, data), silent = TRUE)),
-               logical(1), data = values))
-  }, logical(1))
+  ids <- stri_sub(basename(files), 1, -10)
 
-  stri_sub(basename(files), 1, -10)[ans]
+  eval_tag <- function (x, data) isTRUE(try(rlang::eval_tidy(x, data), silent = TRUE))
+
+  ans <- Map(function (path, id) {
+    real_values <- c(readRDS(path), list(id = id))
+    matched <- vapply(tags, eval_tag, logical(1), data = real_values)
+    all(matched)
+  }, files, ids)
+
+  ids[unlist(ans)]
 }
 

@@ -59,7 +59,7 @@ os_write.memory <- function (store, object, tags = list(), id = compute_id(objec
   }
 
   # it's environment-based, so reference semantics = writes are persistent
-  store[[id]] <- list(object = object, tags = tags)
+  store[[id]] <- list(object = object, tags = tags, id = id)
   id
 }
 
@@ -145,10 +145,10 @@ os_find.memory <- function (store, tags)
   isq <- vapply(tags, rlang::is_quosure, logical(1))
   stopifnot(all(isq))
 
-  tags <- eapply(store, function (el) {
+  ans <- eapply(store, function (el) {
     all(vapply(tags, function (x, data) isTRUE(try(rlang::eval_tidy(x, data), silent = TRUE)),
-               logical(1), data = el$tags))
+               logical(1), data = c(el$tags, list(id = el$id))))
   })
 
-  names(which(vapply(tags, as.logical, logical(1))))
+  names(which(vapply(ans, as.logical, logical(1))))
 }
