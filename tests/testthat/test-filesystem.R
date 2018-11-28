@@ -18,10 +18,10 @@ test_that("write to store", {
   fs <- helper_empty_filesystem()
   on.exit(helper_rm_rf(fs))
 
-  res <- os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
+  res <- os_write(fs, iris, list(tag = 'value'), id = as_id('abcdef'))
   expect_true(file.exists(file.path(fs, 'ab', 'cd', 'abcdef.rds')))
   expect_true(file.exists(file.path(fs, 'ab', 'cd', 'abcdef_tags.rds')))
-  expect_equal(res, 'abcdef')
+  expect_equal(toString(res), 'abcdef')
 })
 
 
@@ -42,18 +42,20 @@ test_that("read from store", {
   fs <- helper_empty_filesystem()
   on.exit(helper_rm_rf(fs))
 
-  res <- os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
-  expect_equal(res, 'abcdef')
+  i <- as_id('abcdef')
 
-  res <- os_read(fs, 'abcdef')
+  res <- os_write(fs, iris, list(tag = 'value'), id = i)
+  expect_equal(toString(res), 'abcdef')
+
+  res <- os_read(fs, i)
   expect_named(res, c('object', 'tags'))
   expect_equal(res$object, iris)
   expect_equal(res$tags, list(tag = 'value'))
 
-  res <- os_read_object(fs, 'abcdef')
+  res <- os_read_object(fs, i)
   expect_equal(res, iris)
 
-  res <- os_read_tags(fs, 'abcdef')
+  res <- os_read_tags(fs, i)
   expect_equal(res, list(tag = 'value'))
 })
 
@@ -62,12 +64,14 @@ test_that("object exists", {
   fs <- helper_empty_filesystem()
   on.exit(helper_rm_rf(fs))
 
-  expect_length(os_exists(fs, character(0)), 0)
-  expect_false(os_exists(fs, ''))
-  expect_false(os_exists(fs, 'abcdef'))
+  expect_length(os_exists(fs, as_id(character(0))), 0)
+  expect_false(os_exists(fs, as_id('')))
 
-  os_write(fs, iris, list(tag = 'value'), id = 'abcdef')
-  expect_true(os_exists(fs, 'abcdef'))
+  i <- as_id('abcdef')
+  expect_false(os_exists(fs, i))
+
+  os_write(fs, iris, list(tag = 'value'), id = i)
+  expect_true(os_exists(fs, i))
 })
 
 
@@ -109,7 +113,7 @@ test_that("find objects", {
   res <- os_find(fs, list(rlang::quo(tag %in% c('a', 'b', 'c'))))
   expect_length(res, 3)
 
-  obj <- vapply(res, function (id) os_read_object(fs, id), numeric(1))
+  obj <- vapply(res, function (id) os_read_object(fs, as_id(id)), numeric(1))
   expect_length(obj, 3)
   expect_true(setequal(obj, 1:3))
 })

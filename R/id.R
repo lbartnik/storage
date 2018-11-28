@@ -1,8 +1,9 @@
 #' Object identifier.
 #'
-#' @param x object to compute identifier for, the identifier to print
-#'        or cast to `character` or a `character` value to cast as
-#'        identifier.
+#' @param x object to compute identifier for (`compute_id`), the
+#'        identifier to print or cast to `character` (`print` and
+#'        `toString`), a `character` value to cast as an identifier
+#'        (`as_id`) or a value to be tested (`is_id`).
 #'
 #' @rdname identifier
 #' @name identifier
@@ -32,19 +33,37 @@ compute_id <- function (x) UseMethod("compute_id")
 #'
 #' @rdname identifier
 #' @export
-compute_id.default <- function (x) as_id(digest::digest(x, algo = 'sha1'))
+compute_id.default <- function (x) {
+  y <- digest::digest(x, algo = 'sha1')
 
+  stopifnot(identical(length(y), 1L), identical(nchar(y), 40L),
+            identical(grep('^[0-9a-f]*$', y), 1L))
+  as_id(y)
+}
 
 #' @description `as_id` turns a 40-character string into an identifier.
 #'
 #' @rdname identifier
 #' @export
 as_id <- function (x) {
-  stopifnot(is.character(x), identical(length(x), 1L), identical(nchar(x), 40L))
-  stopifnot(identical(grep('^[0-9a-f]*$', x), 1L))
-
+  stopifnot(is.character(x))
   structure(x, class = 'identifier')
 }
+
+
+#' @description `is_id` tests whether `x` is an identifier.
+#'
+#' @rdname identifier
+#' @export
+is_id <- function (x) inherits(x, 'identifier')
+
+
+#' @export
+`[[.identifier` <- function (x, i) as_id(unclass(x)[[i]])
+
+
+#' @export
+`[.identifier` <- function (x, i) as_id(unclass(x)[i])
 
 
 #' @inheritDotParams base::print
@@ -57,6 +76,7 @@ print.identifier <- function (x, ...) {
 }
 
 
+#' @export
 #' @rdname identifier
 toString.identifier <- function (x, ...) {
   if (isTRUE(attr(x, 'long'))) return(unclass(x))

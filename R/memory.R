@@ -130,7 +130,7 @@ os_exists.memory <- function (store, id)
 os_list.memory <- function (store)
 {
   stopifnot(is_memory(store))
-  ls(envir = store)
+  as_id(ls(envir = store))
 }
 
 
@@ -153,5 +153,5 @@ os_find.memory <- function (store, tags)
                logical(1), data = el$tags))
   })
 
-  names(which(vapply(tags, as.logical, logical(1))))
+  as_id(names(which(vapply(tags, as.logical, logical(1)))))
 }
