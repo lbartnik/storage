@@ -1,17 +1,21 @@
 Package: storage
 Type: Package
-Title: Simple Storage Solution
+Title: Simple R Object Store
 Version: 0.1.0
-Author: Lukasz A. Bartnik
-Maintainer: Lukasz A. Bartnik <l.bartnik@gmail.com>
-Description: Defines a simple interface for storing arbitrary R objects.
-    Also, implements this interface with a filesystem-based object store.
+Date: 2017-04-16
+Authors@R: person("Lukasz", "Bartnik", email = "l.bartnik@gmail.com", role = c("aut", "cre"))
+Description: Simple interface for to store arbitrary R objects. Comes
+    with filesystem-based and memory-based implementations of the store.
 License: GPL-3 + file LICENSE
-Encoding: UTF-8
+URL: https://github.com/lbartnik/storage
+BugReports: https://github.com/lbartnik/storage/issues
 Imports:
     digest,
     rlang,
     stringi,
     tools
-LazyData: true
+Suggests:
+    testthat
+Encoding: UTF-8
 RoxygenNote: 6.1.0
+Roxygen: list(markdown = TRUE)
