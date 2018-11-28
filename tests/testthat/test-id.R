@@ -9,11 +9,10 @@ test_that("assignment can be hashed", {
 })
 
 test_that("as_id", {
+  expect_s3_class(as_id(random_str(1)), "identifier")
   expect_s3_class(as_id(random_str(40)), "identifier")
 
-  expect_error(as_id(random_str(1)))
-  expect_error(as_id(random_str(39)))
-  expect_error(as_id(random_str(41)))
+  expect_error(as_id(1L))
 })
 
 test_that("toString for identifier", {

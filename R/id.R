@@ -32,17 +32,20 @@ compute_id <- function (x) UseMethod("compute_id")
 #'
 #' @rdname identifier
 #' @export
-compute_id.default <- function (x) as_id(digest::digest(x, algo = 'sha1'))
+compute_id.default <- function (x) {
+  y <- digest::digest(x, algo = 'sha1')
 
+  stopifnot(identical(length(y), 1L), identical(nchar(y), 40L),
+            identical(grep('^[0-9a-f]*$', y), 1L))
+  as_id(y)
+}
 
 #' @description `as_id` turns a 40-character string into an identifier.
 #'
 #' @rdname identifier
 #' @export
 as_id <- function (x) {
-  stopifnot(is.character(x), identical(length(x), 1L), identical(nchar(x), 40L))
-  stopifnot(identical(grep('^[0-9a-f]*$', x), 1L))
-
+  stopifnot(is.character(x))
   structure(x, class = 'identifier')
 }
 
