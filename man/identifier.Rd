@@ -5,6 +5,7 @@
 \alias{compute_id}
 \alias{compute_id.default}
 \alias{as_id}
+\alias{is_id}
 \alias{print.identifier}
 \alias{toString.identifier}
 \alias{long}
@@ -17,6 +18,8 @@ compute_id(x)
 
 as_id(x)
 
+is_id(x)
+
 \method{print}{identifier}(x, ...)
 
 \method{toString}{identifier}(x, ...)
@@ -26,9 +29,10 @@ long(x)
 match_short(short, store)
 }
 \arguments{
-\item{x}{object to compute identifier for, the identifier to print
-or cast to `character` or a `character` value to cast as
-identifier.}
+\item{x}{object to compute identifier for (`compute_id`), the
+identifier to print or cast to `character` (`print` and
+`toString`), a `character` value to cast as an identifier
+(`as_id`) or a value to be tested (`is_id`).}
 
 \item{...}{Arguments passed on to \code{base::print}
 \describe{
@@ -50,6 +54,8 @@ the default implementation of `compute_id` uses the
 __sha1__ algorithm implemented in [digest::digest].
 
 `as_id` turns a 40-character string into an identifier.
+
+`is_id` tests whether `x` is an identifier.
 
 `long` forces printing of all 40 characters of an
 identifier.

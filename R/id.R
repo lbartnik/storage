@@ -1,8 +1,9 @@
 #' Object identifier.
 #'
-#' @param x object to compute identifier for, the identifier to print
-#'        or cast to `character` or a `character` value to cast as
-#'        identifier.
+#' @param x object to compute identifier for (`compute_id`), the
+#'        identifier to print or cast to `character` (`print` and
+#'        `toString`), a `character` value to cast as an identifier
+#'        (`as_id`) or a value to be tested (`is_id`).
 #'
 #' @rdname identifier
 #' @name identifier
@@ -48,6 +49,13 @@ as_id <- function (x) {
   stopifnot(is.character(x))
   structure(x, class = 'identifier')
 }
+
+
+#' @description `is_id` tests whether `x` is an identifier.
+#'
+#' @rdname identifier
+#' @export
+is_id <- function (x) inherits(x, 'identifier')
 
 
 #' @inheritDotParams base::print

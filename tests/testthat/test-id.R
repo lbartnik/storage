@@ -15,6 +15,10 @@ test_that("as_id", {
   expect_error(as_id(1L))
 })
 
+test_that("is_id", {
+  expect_true(is_id(as_id('a')))
+})
+
 test_that("toString for identifier", {
   i <- compute_id(iris)
 
