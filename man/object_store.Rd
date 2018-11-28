@@ -17,9 +17,9 @@
 \usage{
 is_object_store(x)
 
-os_remove(x)
+os_remove(store)
 
-os_remove_objects(x, ids = os_list(x))
+os_remove_objects(store, ids = os_list(store))
 
 os_write(store, object, tags, id = compute_id(object))
 
@@ -33,9 +33,22 @@ os_read_tags(store, id)
 
 os_exists(store, id)
 
-os_find(storage, tags)
+os_find(store, tags)
 
-os_list(storage)
+os_list(store)
+}
+\arguments{
+\item{x}{object to be tested.}
+
+\item{store}{object store.}
+
+\item{ids}{multiple object identifiers.}
+
+\item{object}{R object to be written into object store.}
+
+\item{tags}{a named `list` of tags for an object.}
+
+\item{id}{object identifier; see [compute_id].}
 }
 \value{
 \code{os_write} returns object id.

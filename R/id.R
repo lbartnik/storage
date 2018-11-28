@@ -11,10 +11,10 @@
 #' i <- compute_id(iris)
 #'
 #' toString(i) # returns 8-character string
-#' toString(full(i)) returns 40-character string
+#' toString(long(i)) # returns 40-character string
 #'
 #' print(i) # prints 8 characters
-#' print(full(i)) # prints 40 characters
+#' print(long(i)) # prints 40 characters
 NULL
 
 #' @description `compute_id` calculates an unique identifier based on the

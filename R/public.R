@@ -11,9 +11,14 @@
 #' @rdname object_store
 #' @name object_store
 #'
+#' @param store object store.
+#' @param id object identifier; see [compute_id].
+#' @param ids multiple object identifiers.
 NULL
 
 
+#' @param x object to be tested.
+#'
 #' @rdname object_store
 #' @export
 is_object_store <- function (x) inherits(x, 'object_store')
@@ -21,14 +26,17 @@ is_object_store <- function (x) inherits(x, 'object_store')
 
 #' @rdname object_store
 #' @export
-os_remove <- function (x) UseMethod("os_remove")
+os_remove <- function (store) UseMethod("os_remove")
 
 
 #' @rdname object_store
 #' @export
-os_remove_objects <- function (x, ids = os_list(x)) UseMethod("os_remove_objects")
+os_remove_objects <- function (store, ids = os_list(store)) UseMethod("os_remove_objects")
 
 
+#' @param object R object to be written into object store.
+#' @param tags a named `list` of tags for an object.
+#'
 #' @return \code{os_write} returns object id.
 #' @rdname object_store
 #' @export
@@ -62,9 +70,9 @@ os_exists <- function (store, id) UseMethod("os_exists")
 
 #' @rdname object_store
 #' @export
-os_find <- function (storage, tags) UseMethod('os_find')
+os_find <- function (store, tags) UseMethod('os_find')
 
 
 #' @rdname object_store
 #' @export
-os_list <- function (storage) UseMethod("os_list")
+os_list <- function (store) UseMethod("os_list")

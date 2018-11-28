@@ -1,14 +1,19 @@
 #' Filesystem-based object store.
 #'
+#' @inheritParams object_store
+#'
 #' @rdname filesystem_os
 #' @name filesystem_os
 NULL
 
 
+#' @param path directory path; if does not exist and `create` is `TRUE`,
+#'        it will be created.
+#' @param create whether to create `path` if does not exist.
+#'
 #' @rdname filesystem_os
 #' @export
-filesystem <- function (path = getwd(), create = FALSE)
-{
+filesystem <- function (path = getwd(), create = FALSE) {
   assert_dir(path, create)
   structure(path, class = c('object_store', 'filesystem'))
 }
@@ -19,6 +24,9 @@ filesystem <- function (path = getwd(), create = FALSE)
 is_filesystem <- function (x) is_object_store(x) && inherits(x, 'filesystem')
 
 
+#' @param empty_ok is an empty directory considered a valid filesystem
+#'        object store.
+#'
 #' @rdname filesystem_os
 #' @export
 is_filesystem_dir <- function (path, empty_ok = FALSE)
@@ -88,6 +96,8 @@ full_path <- function (store, id, ext, .create = FALSE)
 }
 
 
+#' @inheritDotParams base::print
+#'
 #' @rdname filesystem_os
 #' @export
 print.filesystem <- function (x, ...)
@@ -111,20 +121,20 @@ toString.memory <- function (x, ...) {
 
 #' @rdname filesystem_os
 #' @export
-os_remove.filesystem <- function (x) {
-  unlink(as.character(x), recursive = TRUE, force = TRUE)
+os_remove.filesystem <- function (store) {
+  unlink(as.character(store), recursive = TRUE, force = TRUE)
 }
 
 
 #' @rdname filesystem_os
 #' @export
-os_remove_objects.filesystem <- function (x, ids = os_list(x))
+os_remove_objects.filesystem <- function (store, ids = os_list(store))
 {
   # remove data and tag files
   ids <- c(ids, paste0(ids, '_tags'))
 
   # match existing files against object ids
-  files <- list.files(x, full.names = TRUE, recursive = TRUE)
+  files <- list.files(store, full.names = TRUE, recursive = TRUE)
   ids <- match(ids, tools::file_path_sans_ext(basename(files)))
 
   invisible(unlink(files[ids]) == 0)
