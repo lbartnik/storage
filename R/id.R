@@ -76,6 +76,7 @@ print.identifier <- function (x, ...) {
 }
 
 
+#' @export
 #' @rdname identifier
 toString.identifier <- function (x, ...) {
   if (isTRUE(attr(x, 'long'))) return(unclass(x))
