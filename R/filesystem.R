@@ -238,23 +238,19 @@ os_list.filesystem <- function (store)
 
   # [^s] means ignore all files matching *_tags.rds
   files <- basename(list.files(store, pattern = '*[^s].rds', recursive = TRUE))
-  unique(file_path_sans_ext(files))
+  as_id(unique(file_path_sans_ext(files)))
 }
 
 
 #' @rdname filesystem_os
 #' @export
 #'
-#' @import rlang
 #' @importFrom tools file_path_sans_ext
 #' @importFrom stringi stri_sub
 #'
 os_find.filesystem <- function (store, tags)
 {
-  stopifnot(is_filesystem(store), is.list(tags))
-
-  isq <- vapply(tags, rlang::is_quosure, logical(1))
-  stopifnot(all(isq))
+  stopifnot(is_filesystem(store))
 
   files <- list.files(store, full.names = TRUE, recursive = TRUE,
                       pattern = '*_tags.rds')
@@ -264,6 +260,6 @@ os_find.filesystem <- function (store, tags)
                logical(1), data = values))
   }, logical(1))
 
-  stri_sub(basename(files), 1, -10)[ans]
+  as_id(stri_sub(basename(files), 1, -10)[ans])
 }
 

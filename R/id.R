@@ -58,6 +58,14 @@ as_id <- function (x) {
 is_id <- function (x) inherits(x, 'identifier')
 
 
+#' @export
+`[[.identifier` <- function (x, i) as_id(unclass(x)[[i]])
+
+
+#' @export
+`[.identifier` <- function (x, i) as_id(unclass(x)[i])
+
+
 #' @inheritDotParams base::print
 #'
 #' @rdname identifier
