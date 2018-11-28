@@ -73,3 +73,28 @@ long <- function (x) {
   attr(x, 'long') <- TRUE
   x
 }
+
+
+#' `match_short` searches for an identifier matching the given short
+#' (8-character) string. If more than one identifier matches `short`,
+#' throws an exception. If no identifiers match, returns `NULL`.
+#'
+#' @param short 8-character string to match.
+#' @param store object store where `short` is expected to be matched.
+#'
+#' @rdname identifier
+#' @export
+match_short <- function (short, store) {
+  ids <- os_list(store)
+  ids <- stringi::stri_subset_fixed(ids, short)
+
+  if (identical(length(ids), 0L)) {
+    return(NULL)
+  }
+
+  if (!identical(length(ids), 1L)) {
+    stop('more than one identifier matches ', short, call. = FALSE)
+  }
+
+  as_id(ids)
+}

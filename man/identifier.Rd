@@ -8,6 +8,7 @@
 \alias{print.identifier}
 \alias{toString.identifier}
 \alias{long}
+\alias{match_short}
 \title{Object identifier.}
 \usage{
 compute_id(x)
@@ -21,6 +22,8 @@ as_id(x)
 \method{toString}{identifier}(x, ...)
 
 long(x)
+
+match_short(short, store)
 }
 \arguments{
 \item{x}{object to compute identifier for, the identifier to print
@@ -31,6 +34,10 @@ identifier.}
 \describe{
   \item{x}{an object used to select a method.}
 }}
+
+\item{short}{8-character string to match.}
+
+\item{store}{object store where `short` is expected to be matched.}
 }
 \value{
 Object of class `"identifier"`.

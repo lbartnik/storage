@@ -30,3 +30,14 @@ test_that("print for identifier", {
   expect_output(print(i), substr(s, 1, 8))
   expect_output(print(long(i)), s)
 })
+
+test_that("match short identifier", {
+  m <- helper_empty_memory()
+  i <- compute_id(iris)
+  os_write(m, iris, list(), i)
+
+  j <- toString(i)
+  expect_equal(nchar(j), 8)
+
+  expect_equal(match_short(j, m), i)
+})
