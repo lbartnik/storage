@@ -28,9 +28,9 @@ is_memory(x)
 
 \method{toString}{memory}(x, ...)
 
-\method{os_remove}{memory}(x)
+\method{os_remove}{memory}(store)
 
-\method{os_remove_objects}{memory}(x, ids = os_list(x))
+\method{os_remove_objects}{memory}(store, ids = os_list(store))
 
 \method{os_write}{memory}(store, object, tags = list(),
   id = compute_id(object))
@@ -48,6 +48,24 @@ is_memory(x)
 \method{os_list}{memory}(store)
 
 \method{os_find}{memory}(store, tags)
+}
+\arguments{
+\item{x}{object to be tested.}
+
+\item{...}{Arguments passed on to \code{base::print}
+\describe{
+  \item{x}{an object used to select a method.}
+}}
+
+\item{store}{object store.}
+
+\item{ids}{multiple object identifiers.}
+
+\item{object}{R object to be written into object store.}
+
+\item{tags}{a named `list` of tags for an object.}
+
+\item{id}{object identifier; see [compute_id].}
 }
 \description{
 Memory-based object store.

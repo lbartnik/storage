@@ -26,9 +26,9 @@ is_filesystem_dir(path, empty_ok = FALSE)
 
 \method{print}{filesystem}(x, ...)
 
-\method{os_remove}{filesystem}(x)
+\method{os_remove}{filesystem}(store)
 
-\method{os_remove_objects}{filesystem}(x, ids = os_list(x))
+\method{os_remove_objects}{filesystem}(store, ids = os_list(store))
 
 \method{os_write}{filesystem}(store, object, tags = list(),
   id = compute_id(object))
@@ -46,6 +46,32 @@ is_filesystem_dir(path, empty_ok = FALSE)
 \method{os_list}{filesystem}(store)
 
 \method{os_find}{filesystem}(store, tags)
+}
+\arguments{
+\item{path}{directory path; if does not exist and `create` is `TRUE`,
+it will be created.}
+
+\item{create}{whether to create `path` if does not exist.}
+
+\item{x}{object to be tested.}
+
+\item{empty_ok}{is an empty directory considered a valid filesystem
+object store.}
+
+\item{...}{Arguments passed on to \code{base::print}
+\describe{
+  \item{x}{an object used to select a method.}
+}}
+
+\item{store}{object store.}
+
+\item{ids}{multiple object identifiers.}
+
+\item{object}{R object to be written into object store.}
+
+\item{tags}{a named `list` of tags for an object.}
+
+\item{id}{object identifier; see [compute_id].}
 }
 \description{
 Filesystem-based object store.

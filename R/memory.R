@@ -1,5 +1,7 @@
 #' Memory-based object store.
 #'
+#' @inheritParams object_store
+#'
 #' @rdname memory_os
 #' @name memory_os
 NULL
@@ -18,6 +20,7 @@ memory <- function ()
 is_memory <- function (x) is_object_store(x) && inherits(x, 'memory')
 
 
+#' @inheritDotParams base::print
 #' @rdname memory_os
 #' @export
 print.memory <- function (x, ...)
@@ -35,14 +38,14 @@ toString.memory <- function (x, ...) {
 
 #' @rdname memory_os
 #' @export
-os_remove.memory <- function (x) {
-  rm(list = ls(envir = x, all.names = TRUE), envir = x)
+os_remove.memory <- function (store) {
+  rm(list = ls(envir = store, all.names = TRUE), envir = store)
 }
 
 
 #' @rdname memory_os
 #' @export
-os_remove_objects.memory <- function (x, ids = os_list(x)) {
+os_remove_objects.memory <- function (store, ids = os_list(store)) {
   stop("not implemented yet")
 }
 

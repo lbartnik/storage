@@ -6,7 +6,7 @@ Author: Lukasz A. Bartnik
 Maintainer: Lukasz A. Bartnik <l.bartnik@gmail.com>
 Description: Defines a simple interface for storing arbitrary R objects.
     Also, implements this interface with a filesystem-based object store.
-License: GPL v3
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 Imports:
     digest,
