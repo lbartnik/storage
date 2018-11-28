@@ -6,7 +6,6 @@
 \alias{memory}
 \alias{is_memory}
 \alias{print.memory}
-\alias{toString.memory}
 \alias{os_remove.memory}
 \alias{os_remove_objects.memory}
 \alias{os_write.memory}

@@ -21,7 +21,7 @@ helper_rm_rf <- function (x)
 
 
 
-helper_empty_memory <- function (path)
+helper_empty_memory <- function ()
 {
   memory()
 }
