@@ -58,7 +58,7 @@ identifier.
 i <- compute_id(iris)
 
 toString(i) # returns 8-character string
-toString(full(i)) returns 40-character string
+toString(full(i)) # returns 40-character string
 
 print(i) # prints 8 characters
 print(full(i)) # prints 40 characters
